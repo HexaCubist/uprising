@@ -8,13 +8,14 @@
 
 <div id="main">
 	<h1>Choose your team</h1>
-	<button onclick="startact('notplaying')">I'm not playing</button>
-	<button onclick="startact('resistance')">Resistance</button>
-	<button onclick="startact('state')">The State</button>
+	<button id="nbutton" onclick="startact('notplaying')">I'm not playing</button>
+	<button id="rbutton" onclick="startact('resistance')">Resistance</button>
+	<button id="sbutton" onclick="startact('state')">The State</button>
 </div>
 <script type="text/javascript">
 	var act = 0;
 	var body =  document.getElementById('body');
+	var main =  document.getElementById('main');
 	function startact(team) {
 		if (body.requestFullscreen) {
 			body.requestFullscreen();
@@ -27,45 +28,106 @@
 		}
 		setTimeout(() => {
 			// Black Screen
-			body.className = "start" // clear classes
-			body.classList.add("black")
+			main.className = "start" // clear classes
+			main.classList.add("black")
 		}, ((3-act)*60-10) * 100);
 		setTimeout(() => {
 			// Colour Screen
-			body.className = "start" // clear classes
-			body.classList.add(team)
+			main.className = "start" // clear classes
+			main.classList.add(team)
 		}, ((3-act)*60) * 100);
 		setTimeout(() => {
 			// Reset
-			body.className = "" // clear classes
+			main.className = "" // clear classes
 			act += 1;
 		}, ((3-act)*60 +40) * 100);
-		body.className = "start"
+		main.className = "start"
 	}
 </script>
 <style type="text/css">
-	body {
+	#main {
 		display: block;
 		background: white !important;
 	}
 
 	:not(:root):-webkit-full-screen::backdrop {
-		background: white !important;
+		background: black !important;
+	}
+
+	body {
+    background: black;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+	}
+
+	#main {
+	    width: 100vw;
+	    height: 100vh;
+	    margin: 0;
+	}
+
+	#main.start {
+    border-radius: 100em;
+    width: 100vw;
+    height: 100vw;
+    max-width: 100vh;
+    max-height: 100vh;
 	}
 	.start * {
 		display: none;
 	}
-	.black:not(:root):-webkit-full-screen::backdrop{
+	#main.black{
 		background: black !important;
 	}
-	.notplaying:not(:root):-webkit-full-screen::backdrop{
+	#main.notplaying{
 		background: blue !important;
 	}
-	.resistance:not(:root):-webkit-full-screen::backdrop{
+	#main.resistance{
 		background: red !important;
 	}
-	.state:not(:root):-webkit-full-screen::backdrop{
+	#main.state{
 		background: gold !important;
+	}
+
+	#nbutton {
+	    background: gold;
+	}
+
+	button {
+	    border: 0;
+	    border-radius: 500px;
+	    padding: 0.5em 1em;
+	    font-size: 1em;
+	    display: block;
+	    margin: 0.2em auto;
+	}
+
+	#rbutton {
+	    background: crimson;
+	    color: white;
+	}
+
+	#sbutton {
+	    background: darkblue;
+	    color: white;
+	}
+
+	h1 {
+	    font-size: 1.2em;
+	    margin-top: 0;
+	    padding-top: 1em;
+	}
+
+	#main {
+	    display: block;
+	    background: white !important;
+	    font-family: sans-serif;
+	    font-size: 6vw;
+	    text-align: center;
 	}
 </style>
 </body>
