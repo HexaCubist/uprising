@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Uprising in the Third Act</title>
+</head>
+<body id="body">
+
+<div id="main">
+	<h1>Choose your team</h1>
+	<button onclick="startact('notplaying')">I'm not playing</button>
+	<button onclick="startact('resistance')">Resistance</button>
+	<button onclick="startact('state')">The State</button>
+</div>
+<script type="text/javascript">
+	var act = 1;
+	var body =  document.getElementById('body');
+	function startact(team) {
+		if (body.requestFullscreen) {
+			body.requestFullscreen();
+		} else if (body.mozRequestFullScreen) { /* Firefox */
+			body.mozRequestFullScreen();
+		} else if (body.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+			body.webkitRequestFullscreen();
+		} else if (body.msRequestFullscreen) { /* IE/Edge */
+			body.msRequestFullscreen();
+		}
+		setTimeout(() => {
+			// Black Screen
+			body.className = "start" // clear classes
+			body.classList.add("black")
+		}, (3*60-10) * 100);
+		setTimeout(() => {
+			// Colour Screen
+			body.className = "start" // clear classes
+			body.classList.add(team)
+		}, (3*60) * 100);
+		setTimeout(() => {
+			// Reset
+			body.className = "" // clear classes
+			act += 1;
+		}, (3*60 +40) * 100);
+		body.className = "start"
+	}
+</script>
+<style type="text/css">
+	body {
+		display: block;
+	}
+	.start * {
+		display: none;
+	}
+	.black {
+		background: black;
+	}
+	.notplaying {
+		background: blue;
+	}
+	.resistance {
+		background: red;
+	}
+	.state {
+		background: gold;
+	}
+</style>
+</body>
+</html>
