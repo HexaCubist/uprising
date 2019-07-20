@@ -45,7 +45,11 @@
 <style type="text/css">
 	body {
 		display: block;
-		background: white;
+		background: white !important;
+	}
+
+	:not(:root):-webkit-full-screen::backdrop {
+		background: white !important;
 	}
 	.start * {
 		display: none;
