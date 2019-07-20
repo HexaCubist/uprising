@@ -7,16 +7,36 @@
 <body id="body">
 
 <div id="main">
+	<h1>Enter game code</h1>
+	<input id="gamecode" type="text" autocapitalize="characters">
 	<h1>Choose your team</h1>
 	<button id="nbutton" onclick="startact('notplaying')">I'm not playing</button>
 	<button id="rbutton" onclick="startact('resistance')">Resistance</button>
 	<button id="sbutton" onclick="startact('state')">The State</button>
 </div>
+<div class="codebox" id="codebox">
+	<h2>Time left <span id="countdown">10</span></h2>
+	<h2>Your code is "<span id="codeword">FUCK</span>"</h2>
+	</div>
+<script src="chance.min.js"></script>
 <script type="text/javascript">
 	var act = 0;
-	var body =  document.getElementById('body');
-	var main =  document.getElementById('main');
+	var body = document.getElementById('body');
+	var main = document.getElementById('main');
+	var gamecode = document.getElementById('gamecode');
+	var countdown = document.getElementById('countdown');
+	var codeword = document.getElementById('codeword');
+	var codebox = document.getElementById('codebox');
+	var chance1 = new Chance(Math.round( new Date()/ 1000/60));
+	gamecode.value = chance1.animal({type: 'pet'}).toLowerCase();
 	function startact(team) {
+		chance2 = new Chance(gamecode.value.toLowerCase());
+		teams = ['notplaying','resistance','state'];
+		random = chance2.pickset([
+			"good game","to win","to see","I'm serious","I don't know", "How about","Who is","Who am",
+			"Where are we","How much time left?"
+		],3)[teams.indexOf(team)];
+		codeword.innerHTML = random
 		if (body.requestFullscreen) {
 			body.requestFullscreen();
 		} else if (body.mozRequestFullScreen) { /* Firefox */
@@ -29,19 +49,39 @@
 		setTimeout(() => {
 			// Black Screen
 			main.className = "start" // clear classes
+			codebox.className = "codebox"
+		}, (10) * 1000);
+		left = 10
+		timer = setInterval(() => {
+			left -= 1;
+			countdown.innerHTML = left;
+			if (left == 0) {
+				clearInterval(timer);
+				codeword.innerHTML = ""
+			}
+		},1000)
+		setTimeout(() => {
+			// green Screen
+			main.className = "start" // clear classes
+			main.classList.add("green")
+		}, ((3)*60-20) * 1000);
+		setTimeout(() => {
+			// Black Screen
+			main.className = "start" // clear classes
 			main.classList.add("black")
-		}, ((3-act)*60-10) * 100);
+		}, ((3)*60 - 10) * 1000);
 		setTimeout(() => {
 			// Colour Screen
 			main.className = "start" // clear classes
 			main.classList.add(team)
-		}, ((3-act)*60) * 100);
+		}, ((3)*60) * 1000);
 		setTimeout(() => {
 			// Reset
 			main.className = "" // clear classes
 			act += 1;
-		}, ((3-act)*60 +40) * 100);
+		}, ((3)*60 +40) * 1000);
 		main.className = "start"
+		codebox.className = "go codebox"
 	}
 </script>
 <style type="text/css">
@@ -55,9 +95,11 @@
 	}
 
 	body {
+		font-family: sans-serif;
     background: black;
     margin: 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -83,18 +125,22 @@
 	#main.black{
 		background: black !important;
 	}
+	#main.green{
+		background: green !important;
+	}
 	#main.notplaying{
-		background: blue !important;
+		background: gold !important;
 	}
 	#main.resistance{
-		background: red !important;
+		background: crimson !important;
 	}
 	#main.state{
-		background: gold !important;
+		background: darkblue !important;
 	}
 
 	#nbutton {
-	    background: gold;
+	    background: darkblue;
+	    color: white;
 	}
 
 	button {
@@ -112,14 +158,17 @@
 	}
 
 	#sbutton {
-	    background: darkblue;
-	    color: white;
+	    background: gold;
 	}
 
-	h1 {
+	h1, h2 {
 	    font-size: 1.2em;
 	    margin-top: 0;
 	    padding-top: 1em;
+	}
+
+	h2 {
+		color: white;
 	}
 
 	#main {
@@ -129,6 +178,21 @@
 	    font-size: 6vw;
 	    text-align: center;
 	}
+
+	input#gamecode {
+	    text-transform: uppercase;
+	}
+
+.codebox {
+    opacity: 0;/*
+    position: absolute;
+    bottom: 0;*/
+    color: white;
+}
+
+.go.codebox {
+    opacity: 1;
+}
 </style>
 </body>
 </html>
